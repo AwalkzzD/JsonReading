@@ -1,4 +1,4 @@
-package com.example.jsonreading
+package com.example.jsonreading.ui
 
 import android.content.Context
 import android.net.Uri
