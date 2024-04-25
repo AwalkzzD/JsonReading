@@ -1,25 +1,21 @@
 package com.example.jsonreading.ui
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.example.jsonreading.data.Response
 import com.example.jsonreading.databinding.ActivityMainBinding
+import com.example.jsonreading.utils.FileUtils
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileOutputStream
 import java.io.FileReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import java.nio.file.Files
 
 private const val TAG = "MainActivity"
 
@@ -39,24 +35,24 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "onCreate: ${uri.toString()}")
 
                 if (uri != null) {
-
-                    jsonFile = fileFromContentUri(this, uri)
+                    jsonFile = FileUtils.fileFromContentUri(this, uri)
 
                     // separate thread for reading file and parsing json string to object
                     GlobalScope.launch {
                         val reader = FileReader(jsonFile)
-                        val resultObj: Response = Gson().fromJson(
-                            reader, Response::class.java
+
+                        jsonLiveData.postValue(
+                            Gson().fromJson(
+                                reader, Response::class.java
+                            )
                         )
-                        jsonLiveData.postValue(resultObj)
                         reader.close()
                     }
                 }
 
             }
 
-
-
+        // file choose button listener
         binding.chooseFile.setOnClickListener {
             Toast.makeText(this, "Choose your file", Toast.LENGTH_SHORT).show()
 
@@ -64,54 +60,26 @@ class MainActivity : AppCompatActivity() {
             getFileContent.launch("application/json")
         }
 
-        jsonLiveData.observe(this) {
-            Toast.makeText(this, "Completed Parsing", Toast.LENGTH_SHORT).show()
-
-            Log.d(TAG, "Showing result: ${it.expireDatetime}")
+        // remove obj button listener
+        binding.removeObj.setOnClickListener {
+            // make json obj value to null to check memory usage
+            if (jsonLiveData.value != null) {
+                jsonLiveData.postValue(null)
+            }
         }
 
-    }
+        // json parsing object live data observer
+        jsonLiveData.observe(this) {
+            if (jsonLiveData.value != null) {
+                Toast.makeText(this, "Completed Parsing", Toast.LENGTH_SHORT).show()
 
-    // method to get local file path from content uri
-    private fun fileFromContentUri(context: Context, contentUri: Uri): File {
-
-        val fileExtension = getFileExtension(context, contentUri)
-        val fileName = "temporary_file" + if (fileExtension != null) ".$fileExtension" else ""
-
-        val tempFile = File(context.cacheDir, fileName)
-        tempFile.createNewFile()
-
-        try {
-            val oStream = FileOutputStream(tempFile)
-            val inputStream = context.contentResolver.openInputStream(contentUri)
-
-            inputStream?.let {
-                copy(inputStream, oStream)
+                Log.d(TAG, "Showing result: ${it.expireDatetime}")
             }
 
-            oStream.flush()
-            oStream.close()
-            inputStream?.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            if (Files.deleteIfExists(jsonFile.toPath())) {
+                Log.d(TAG, "file cleanup: file deleted")
+            }
         }
 
-        return tempFile
-    }
-
-    // supporting method to get file details to create temp file
-    private fun getFileExtension(context: Context, uri: Uri): String? {
-        val fileType: String? = context.contentResolver.getType(uri)
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType)
-    }
-
-    // method for copying input stream data to output stream using bytearray
-    @Throws(IOException::class)
-    private fun copy(source: InputStream, target: OutputStream) {
-        val buf = ByteArray(8192)
-        var length: Int
-        while (source.read(buf).also { length = it } > 0) {
-            target.write(buf, 0, length)
-        }
     }
 }

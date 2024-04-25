@@ -13,4 +13,12 @@
         android:layout_centerInParent="true"
         android:text="Choose File" />
 
+    <Button
+        android:id="@+id/remove_obj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choose_file"
+        android:layout_centerHorizontal="true"
+        android:text="Remove JsonObj" />
+
 </RelativeLayout>
