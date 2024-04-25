@@ -1,22 +1,22 @@
 package com.example.jsonreading.data
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class MediaFile(
     val description: Any?,
     val sequence: Long,
-    @SerializedName("file_type")
+    @JsonProperty("file_type")
     val fileType: String,
-    @SerializedName("file_name")
+    @JsonProperty("file_name")
     val fileName: String,
-    @SerializedName("material_type")
+    @JsonProperty("material_type")
     val materialType: String,
     val seen: Boolean,
     val id: Long,
     val size: Long,
     val title: String,
     val bookmark: Boolean,
-    @SerializedName("file_path")
+    @JsonProperty("file_path")
     val filePath: String,
     val length: String,
     val thumbnail: String,

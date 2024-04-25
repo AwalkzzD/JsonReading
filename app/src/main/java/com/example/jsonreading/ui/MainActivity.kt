@@ -10,11 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.jsonreading.data.Response
 import com.example.jsonreading.databinding.ActivityMainBinding
 import com.example.jsonreading.utils.FileUtils
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileReader
 import java.nio.file.Files
 
 private const val TAG = "MainActivity"
@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var jsonFile: File
+
     private val jsonLiveData: MutableLiveData<Response> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +40,11 @@ class MainActivity : AppCompatActivity() {
 
                     // separate thread for reading file and parsing json string to object
                     GlobalScope.launch {
-                        val reader = FileReader(jsonFile)
 
                         jsonLiveData.postValue(
-                            Gson().fromJson(
-                                reader, Response::class.java
-                            )
+                            ObjectMapper().registerModule(KotlinModule())
+                                .readValue(jsonFile, Response::class.java)
                         )
-                        reader.close()
                     }
                 }
 
@@ -66,6 +64,8 @@ class MainActivity : AppCompatActivity() {
             if (jsonLiveData.value != null) {
                 jsonLiveData.postValue(null)
             }
+
+            Runtime.getRuntime().gc()
         }
 
         // json parsing object live data observer

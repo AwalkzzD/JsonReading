@@ -1,36 +1,36 @@
 package com.example.jsonreading.data
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class UserDetail(
     val username: String,
-    @SerializedName("phone_number")
+    @JsonProperty("phone_number")
     val phoneNumber: String,
-    @SerializedName("first_name")
+    @JsonProperty("first_name")
     val firstName: String,
-    @SerializedName("last_name")
+    @JsonProperty("last_name")
     val lastName: String,
-    @SerializedName("user_id")
+    @JsonProperty("user_id")
     val userId: Long,
-    @SerializedName("medium_id")
+    @JsonProperty("medium_id")
     val mediumId: Long,
     val courses: List<Course>,
-    @SerializedName("board_id")
+    @JsonProperty("board_id")
     val boardId: Long,
     val gender: String,
-    @SerializedName("grade_id")
+    @JsonProperty("grade_id")
     val gradeId: Long,
-    @SerializedName("board_name")
+    @JsonProperty("board_name")
     val boardName: String,
-    @SerializedName("last_activity")
+    @JsonProperty("last_activity")
     val lastActivity: Map<String, Any>,
-    @SerializedName("grade_name")
+    @JsonProperty("grade_name")
     val gradeName: String,
-    @SerializedName("birth_date")
+    @JsonProperty("birth_date")
     val birthDate: Any?,
-    @SerializedName("middle_name")
+    @JsonProperty("middle_name")
     val middleName: String,
-    @SerializedName("medium_name")
+    @JsonProperty("medium_name")
     val mediumName: String,
     val email: String,
 )
