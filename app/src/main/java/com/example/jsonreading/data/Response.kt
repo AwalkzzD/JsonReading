@@ -1,15 +1,15 @@
 package com.example.jsonreading.data
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class Response(
-    @JsonProperty("expire_datetime")
+    @SerializedName("expire_datetime")
     val expireDatetime: String,
     val logins: List<Login>,
-    @JsonProperty("user_details")
+    @SerializedName("user_details")
     val userDetails: List<UserDetail>,
-    @JsonProperty("institute_name")
+    @SerializedName("institute_name")
     val instituteName: String,
-    @JsonProperty("institute_id")
+    @SerializedName("institute_id")
     val instituteId: Long,
 )

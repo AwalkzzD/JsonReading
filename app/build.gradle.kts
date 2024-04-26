@@ -47,7 +47,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // jackson
+/*    // jackson
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     implementation("com.fasterxml.jackson.core:jackson-core:2.16.1")
 
@@ -58,7 +58,11 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.16.1")
 
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")*/
+
+    // gson google
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.10.1")
 
 
 }

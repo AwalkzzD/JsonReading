@@ -1,10 +1,10 @@
 package com.example.jsonreading.data
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class Login(
     val password: String,
-    @JsonProperty("user_id")
+    @SerializedName("user_id")
     val userId: Long,
     val email: String,
 )

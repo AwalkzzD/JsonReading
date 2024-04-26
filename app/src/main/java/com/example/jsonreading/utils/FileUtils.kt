@@ -1,18 +1,29 @@
 package com.example.jsonreading.utils
 
+import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import com.example.jsonreading.R
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import java.nio.file.Files
+
+object CommonUtils {
+    fun getProgressDialog(context: Context): AlertDialog {
+        val dialogBuilder = AlertDialog.Builder(context)
+        dialogBuilder.setView(R.layout.progress_dialog)
+        dialogBuilder.setCancelable(false)
+        return dialogBuilder.create()
+            .apply { window?.setBackgroundDrawableResource(android.R.color.transparent) }
+    }
+}
 
 object FileUtils {
     // method to get local file path from content uri
     fun fileFromContentUri(context: Context, contentUri: Uri): File {
 
+        // get file details to create a temp file
         val fileExtension = getFileExtension(context, contentUri)
         val fileName = "temporary_file" + if (fileExtension != null) ".$fileExtension" else ""
 
@@ -23,13 +34,14 @@ object FileUtils {
             val oStream = FileOutputStream(tempFile)
             val inputStream = context.contentResolver.openInputStream(contentUri)
 
-            inputStream?.let {
-                copy(inputStream, oStream)
-            }
+            // copy contents of file to temp file using ip stream and op stream
+            inputStream?.copyTo(oStream)
 
+            // close io operations
             oStream.flush()
             oStream.close()
             inputStream?.close()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -43,13 +55,8 @@ object FileUtils {
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType)
     }
 
-    // method for copying input stream data to output stream using bytearray
-    @Throws(IOException::class)
-    fun copy(source: InputStream, target: OutputStream) {
-        val buf = ByteArray(8192)
-        var length: Int
-        while (source.read(buf).also { length = it } > 0) {
-            target.write(buf, 0, length)
-        }
+    // delete file if exists
+    fun deleteFile(file: File): Boolean {
+        return Files.deleteIfExists(file.toPath())
     }
 }

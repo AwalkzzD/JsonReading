@@ -1,23 +1,23 @@
 package com.example.jsonreading.data
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class Chapter(
-    @JsonProperty("chapter_quiz_count")
+    @SerializedName("chapter_quiz_count")
     val chapterQuizCount: Long,
-    @JsonProperty("chapter_name")
+    @SerializedName("chapter_name")
     val chapterName: String,
-    @JsonProperty("chapter_sequence")
+    @SerializedName("chapter_sequence")
     val chapterSequence: Long,
-    @JsonProperty("chapter_color")
+    @SerializedName("chapter_color")
     val chapterColor: String,
-    @JsonProperty("graded_quiz")
+    @SerializedName("graded_quiz")
     val gradedQuiz: List<GradedQuiz>,
     val topics: List<Topic>,
-    @JsonProperty("chapter_id")
+    @SerializedName("chapter_id")
     val chapterId: Long,
-    @JsonProperty("chapter_videos_count")
+    @SerializedName("chapter_videos_count")
     val chapterVideosCount: Long,
-    @JsonProperty("media_files")
+    @SerializedName("media_files")
     val mediaFiles: List<MediaFile>,
 )

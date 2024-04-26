@@ -1,24 +1,23 @@
 package com.example.jsonreading.data
 
-import com.fasterxml.jackson.annotation.JsonProperty
-
+import com.google.gson.annotations.SerializedName
 
 data class FullPortion(
-    @JsonProperty("total_time")
+    @SerializedName("total_time")
     val totalTime: String,
     val status: String,
-    @JsonProperty("full_portion_test_result")
+    @SerializedName("full_portion_test_result")
     val fullPortionTestResult: List<Any?>,
-    @JsonProperty("total_mark")
+    @SerializedName("total_mark")
     val totalMark: Long,
-    @JsonProperty("is_completed")
+    @SerializedName("is_completed")
     val isCompleted: Boolean,
-    @JsonProperty("full_portion_test_id")
+    @SerializedName("full_portion_test_id")
     val fullPortionTestId: Long,
-    @JsonProperty("full_portion_test_questions")
+    @SerializedName("full_portion_test_questions")
     val fullPortionTestQuestions: List<FullPortionTestQuestion>,
-    @JsonProperty("is_active")
+    @SerializedName("is_active")
     val isActive: Boolean,
-    @JsonProperty("full_portion_test_name")
+    @SerializedName("full_portion_test_name")
     val fullPortionTestName: String,
 )
