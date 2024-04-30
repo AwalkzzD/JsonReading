@@ -1,23 +1,12 @@
 package com.example.jsonreading.utils
 
-import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
 import android.webkit.MimeTypeMap
-import com.example.jsonreading.R
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.file.Files
-
-object CommonUtils {
-    fun getProgressDialog(context: Context): AlertDialog {
-        val dialogBuilder = AlertDialog.Builder(context)
-        dialogBuilder.setView(R.layout.progress_dialog)
-        dialogBuilder.setCancelable(false)
-        return dialogBuilder.create()
-            .apply { window?.setBackgroundDrawableResource(android.R.color.transparent) }
-    }
-}
 
 object FileUtils {
     // method to get local file path from content uri
@@ -58,5 +47,22 @@ object FileUtils {
     // delete file if exists
     fun deleteFile(file: File): Boolean {
         return Files.deleteIfExists(file.toPath())
+    }
+
+    fun createExternalFile(context: Context, internalFile: File): File? {
+        val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.path
+        val file = File("$storageDir/new.pdf")
+        val oStream = FileOutputStream(file)
+        val inputStream = internalFile.inputStream()
+
+        // copy contents of file to temp file using ip stream and op stream
+        inputStream.copyTo(oStream)
+
+        // close io operations
+        oStream.flush()
+        oStream.close()
+        inputStream.close()
+
+        return storageDir?.let { file }
     }
 }
