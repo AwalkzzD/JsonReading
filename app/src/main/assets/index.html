@@ -1,14 +1,36 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Test Site</title>
+    <meta charset="UTF-8">
+    <title>WebView Test</title>
+    <script>
+        function getToastMessage() {
+            return document.getElementById('toastMessage').value;
+        }
+
+        function showToast() {
+            injectedObj.showToast(getToastMessage());
+        }
+    </script>
 </head>
 <body>
-<input type="button" value="Say hello" onClick="showAndroidToast('Hello World, Showing Toast!')"/>
 
-<script type="text/javascript">
-    function showAndroidToast(toast) {
-        injectedObj.showToast(toast);
-    }
-</script>
+<div style="max-width:960px; margin: auto; text-align:center;">
+    <div style="margin-top: 50px;">
+        <button id="changeColor" type="button" onclick="this.style.backgroundColor='red'">Change
+            color
+        </button>
+    </div>
+
+    <div style="margin-top: 50px;">
+        <label for="toastMessage">Enter toast message:</label>
+        <input id="toastMessage" type="text" placeholder="Toast message"/>
+    </div>
+
+    <div style="margin-top: 50px;">
+        <button id="showToast" type="button" onclick="showToast()">Show toast</button>
+    </div>
+</div>
+
 </body>
 </html>
