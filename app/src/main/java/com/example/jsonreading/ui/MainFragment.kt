@@ -1,6 +1,7 @@
 package com.example.jsonreading.ui
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
@@ -78,10 +80,25 @@ class MainFragment : Fragment() {
 
                 if (uri != null) {
                     pdfFile = FileUtils.fileFromContentUri(requireActivity(), uri)
+                    Log.d(TAG, "PDF File: ${pdfFile.path}")
 
                     val externalFile = FileUtils.createExternalFile(requireActivity(), pdfFile)
-                    if (externalFile != null) {
-                        Log.d(TAG, "External File: ${externalFile.path}")
+                    Log.d(TAG, "External File: ${externalFile.path}")
+
+                    val intent = Intent(Intent.ACTION_VIEW).setDataAndType(
+                        FileProvider.getUriForFile(
+                            requireActivity(),
+                            requireActivity().applicationContext.packageName + ".provider",
+                            externalFile
+                        ), "application/pdf"
+                    )
+                    intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                    intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
+                    try {
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 
@@ -122,9 +139,6 @@ class MainFragment : Fragment() {
             if (::jsonFile.isInitialized) {
                 FileUtils.deleteFile(jsonFile)
             }
-
-            // make json obj value to null to check memory usage
-            jsonLiveData.value = null
 
             // manual garbage collection
             Runtime.getRuntime().gc()

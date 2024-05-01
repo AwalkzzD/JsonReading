@@ -49,9 +49,12 @@ object FileUtils {
         return Files.deleteIfExists(file.toPath())
     }
 
-    fun createExternalFile(context: Context, internalFile: File): File? {
-        val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.path
-        val file = File("$storageDir/new.pdf")
+    fun createExternalFile(context: Context, internalFile: File): File {
+        val file = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+            "my_pdf.pdf"
+        )
+        file.createNewFile()
         val oStream = FileOutputStream(file)
         val inputStream = internalFile.inputStream()
 
@@ -63,6 +66,6 @@ object FileUtils {
         oStream.close()
         inputStream.close()
 
-        return storageDir?.let { file }
+        return file
     }
 }
