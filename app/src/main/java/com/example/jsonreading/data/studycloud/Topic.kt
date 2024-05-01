@@ -1,4 +1,4 @@
-package com.example.jsonreading.data
+package com.example.jsonreading.data.studycloud
 
 data class Topic(
     val sequence: Long,

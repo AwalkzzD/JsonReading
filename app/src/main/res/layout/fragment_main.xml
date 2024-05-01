@@ -24,4 +24,10 @@
         android:layout_height="wrap_content"
         android:text="PDF Conversion" />
 
+    <Button
+        android:id="@+id/db_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Explore Databases" />
+
 </LinearLayout>

@@ -14,6 +14,10 @@
             android:id="@+id/action_mainFragment_to_webViewFragment"
             app:destination="@id/webViewFragment"
             app:popUpTo="@id/mainFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_databaseFragment"
+            app:destination="@id/databaseFragment"
+            app:popUpTo="@id/mainFragment" />
     </fragment>
 
     <fragment
@@ -21,5 +25,10 @@
         android:name="com.example.jsonreading.ui.WebViewFragment"
         android:label="fragment_web_view"
         tools:layout="@layout/fragment_web_view" />
+    <fragment
+        android:id="@+id/databaseFragment"
+        android:name="com.example.jsonreading.ui.DatabaseFragment"
+        android:label="fragment_database"
+        tools:layout="@layout/fragment_database" />
 
 </navigation>

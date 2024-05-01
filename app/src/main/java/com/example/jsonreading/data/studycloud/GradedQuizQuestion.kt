@@ -1,4 +1,4 @@
-package com.example.jsonreading.data
+package com.example.jsonreading.data.studycloud
 
 import com.google.gson.annotations.SerializedName
 

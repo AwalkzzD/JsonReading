@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.jsonreading.R
-import com.example.jsonreading.data.Response
+import com.example.jsonreading.data.studycloud.Response
 import com.example.jsonreading.databinding.FragmentMainBinding
 import com.example.jsonreading.utils.CommonUtils
 import com.example.jsonreading.utils.FileUtils
@@ -121,6 +121,12 @@ class MainFragment : Fragment() {
         binding.pdfConversion.setOnClickListener {
             // choose file dialog to convert pdf to byte array and store to external storage
             getPdfFile.launch("application/pdf")
+        }
+
+        // database explore button listener
+        binding.dbTest.setOnClickListener {
+            // redirect to Database Fragment to explore different databases
+            findNavController().navigate(R.id.action_mainFragment_to_databaseFragment)
         }
 
         // json parsing object live data observer

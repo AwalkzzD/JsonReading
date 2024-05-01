@@ -1,4 +1,8 @@
+import kotlin.script.experimental.jvm.util.classpathFromClass
+
 plugins {
+    id("kotlin-kapt")
+    id("io.realm.kotlin")
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
@@ -49,18 +53,29 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-/*    // jackson
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
-    implementation("com.fasterxml.jackson.core:jackson-core:2.16.1")
+    val room_version = "2.6.1"
 
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
 
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
-    implementation("com.fasterxml.jackson.core:jackson-annotations:2.16.1")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
 
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")*/
+    implementation("io.realm.kotlin:library-base:1.11.0")
+    implementation("io.realm.kotlin:library-sync:1.11.0")
+
+    /*    // jackson
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+        implementation("com.fasterxml.jackson.core:jackson-core:2.16.1")
+
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+        implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+        implementation("com.fasterxml.jackson.core:jackson-annotations:2.16.1")
+
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-kotlin
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")*/
 
     // gson google
     // https://mvnrepository.com/artifact/com.google.code.gson/gson

@@ -1,8 +1,8 @@
-package com.example.jsonreading.data
+package com.example.jsonreading.data.studycloud
 
 import com.google.gson.annotations.SerializedName
 
-data class FullPortionTestQuestion(
+data class TopicQuesion(
     @SerializedName("option_detail_json")
     val optionDetailJson: List<OptionDetailJson>,
     @SerializedName("question_category")
@@ -30,6 +30,8 @@ data class FullPortionTestQuestion(
     val questionDataType: String,
     @SerializedName("question_type")
     val questionType: String,
+    @SerializedName("topic_id")
+    val topicId: Long,
     val sequence: Long,
     @SerializedName("question_id")
     val questionId: Long,
