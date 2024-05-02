@@ -1,4 +1,4 @@
-package com.example.jsonreading.utils.dao
+package com.example.jsonreading.utils.db.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,4 +13,7 @@ interface PersonDao {
 
     @Query("SELECT * FROM persons")
     fun getPersonData(): List<PersonEntity>
+
+    @Query("DELETE FROM persons")
+    fun deleteAllData()
 }

@@ -17,8 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.jsonreading.R
 import com.example.jsonreading.data.studycloud.Response
 import com.example.jsonreading.databinding.FragmentMainBinding
-import com.example.jsonreading.utils.CommonUtils
-import com.example.jsonreading.utils.FileUtils
+import com.example.jsonreading.utils.common.CommonUtils
+import com.example.jsonreading.utils.common.FileUtils
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

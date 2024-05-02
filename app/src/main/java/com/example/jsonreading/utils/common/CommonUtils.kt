@@ -1,4 +1,4 @@
-package com.example.jsonreading.utils
+package com.example.jsonreading.utils.common
 
 import android.app.AlertDialog
 import android.content.Context

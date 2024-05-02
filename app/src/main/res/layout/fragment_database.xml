@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".ui.DatabaseFragment">
@@ -12,8 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="Enter name"
-        android:inputType="text" />
+        android:hint="@string/enter_name_hint"
+        android:inputType="text"
+        android:textColor="@color/green"
+        android:textColorHint="@color/green" />
 
     <EditText
         android:id="@+id/age_et"
@@ -21,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="Enter age"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:textColor="@color/green"
+        android:textColorHint="@color/green" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Room DB" />
+            android:backgroundTint="@color/green"
+            android:text="Room DB"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/sqlite_db"
@@ -43,7 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="SQLite DB" />
+            android:backgroundTint="@color/green"
+            android:text="SQLite DB"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/realm_db"
@@ -51,7 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Realm DB" />
+            android:backgroundTint="@color/green"
+            android:text="Realm DB"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -67,7 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Get Room" />
+            android:backgroundTint="@color/green"
+            android:text="Get Room"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/get_sqlite"
@@ -75,7 +88,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Get SQLite" />
+            android:backgroundTint="@color/green"
+            android:text="Get SQLite"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/get_realm"
@@ -83,7 +98,47 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Get Realm" />
+            android:backgroundTint="@color/green"
+            android:text="Get Realm"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/modify_room_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Delete Room"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/modify_sqlite_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Delete SQLite"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/modify_realm_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Delete Realm"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

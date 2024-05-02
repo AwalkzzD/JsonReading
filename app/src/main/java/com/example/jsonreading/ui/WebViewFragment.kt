@@ -20,7 +20,7 @@ import androidx.webkit.WebViewAssetLoader.AssetsPathHandler
 import androidx.webkit.WebViewAssetLoader.ResourcesPathHandler
 import androidx.webkit.WebViewClientCompat
 import com.example.jsonreading.databinding.FragmentWebViewBinding
-import com.example.jsonreading.utils.CommonUtils
+import com.example.jsonreading.utils.common.CommonUtils
 import com.example.jsonreading.utils.WebAppInterface
 
 private const val TAG = "WebViewFragment"

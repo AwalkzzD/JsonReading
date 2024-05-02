@@ -1,11 +1,11 @@
-package com.example.jsonreading.utils
+package com.example.jsonreading.utils.db.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.jsonreading.data.person.PersonEntity
-import com.example.jsonreading.utils.dao.PersonDao
+import com.example.jsonreading.utils.db.room.dao.PersonDao
 
 @Database(
     version = 1, entities = [PersonEntity::class]

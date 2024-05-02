@@ -1,4 +1,4 @@
-package com.example.jsonreading.utils
+package com.example.jsonreading.utils.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

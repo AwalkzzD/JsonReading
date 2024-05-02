@@ -9,20 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jsonreading.R
 import com.example.jsonreading.data.person.Person
-import com.example.jsonreading.data.person.PersonObject
 import com.example.jsonreading.databinding.FragmentDatabaseBinding
-import com.example.jsonreading.utils.GenericDataAdapter
-import com.example.jsonreading.utils.PersonAppDatabase
-import com.example.jsonreading.utils.dao.PersonDao
-import com.example.jsonreading.utils.sqlite.DBHelper
-import com.example.jsonreading.utils.toPerson
-import com.example.jsonreading.utils.toPersonEntity
-import com.example.jsonreading.utils.toPersonObject
-import io.realm.kotlin.Realm
-import io.realm.kotlin.RealmConfiguration
-import io.realm.kotlin.ext.query
-
-private const val TAG = "DatabaseFragment"
+import com.example.jsonreading.utils.adapter.GenericDataAdapter
+import com.example.jsonreading.utils.common.toPerson
+import com.example.jsonreading.utils.common.toPersonEntity
+import com.example.jsonreading.utils.db.realm.RealmHelper
+import com.example.jsonreading.utils.db.room.PersonAppDatabase
+import com.example.jsonreading.utils.db.room.dao.PersonDao
+import com.example.jsonreading.utils.db.sqlite.DBHelper
 
 class DatabaseFragment : Fragment() {
 
@@ -31,7 +25,8 @@ class DatabaseFragment : Fragment() {
 
     private lateinit var sqLiteDBHelper: DBHelper
     private lateinit var personDao: PersonDao
-    private lateinit var personRealm: Realm
+
+    private val personRealm: RealmHelper = RealmHelper()
 
     private var personList: MutableList<Person> = mutableListOf()
 
@@ -47,7 +42,6 @@ class DatabaseFragment : Fragment() {
 
         sqLiteDBHelper = DBHelper(requireActivity(), null)
         personDao = PersonAppDatabase.getInstance(requireActivity()).personDao()
-        personRealm = Realm.open(RealmConfiguration.create(schema = setOf(PersonObject::class)))
 
         initRecyclerView()
 
@@ -77,8 +71,11 @@ class DatabaseFragment : Fragment() {
             } else {
                 showDbEmptyToast()
             }
-            personDataAdapter.notifyDataSetChanged()
+            personDataAdapter.notifyItemRangeChanged(0, personList.size)
+        }
 
+        binding.modifyRoomDb.setOnClickListener {
+            personDao.deleteAllData()
         }
 
         // SQLite DB Data Handling
@@ -99,24 +96,17 @@ class DatabaseFragment : Fragment() {
         }
 
         binding.getSqlite.setOnClickListener {
-            val cursor = sqLiteDBHelper.getPersonData()
             personList.clear()
-            if (cursor != null) {
-                if (cursor.count > 0) {
-                    while (cursor.moveToNext()) {
-                        personList.add(
-                            Person(
-                                cursor.getString(cursor.getColumnIndex(DBHelper.NAME_COl)),
-                                cursor.getString(cursor.getColumnIndex(DBHelper.AGE_COL))
-                            )
-                        )
-                    }
-                } else {
-                    showDbEmptyToast()
-                }
-                cursor.close()
+            if (sqLiteDBHelper.getPersonData().isNotEmpty()) {
+                personList.addAll(sqLiteDBHelper.getPersonData())
+            } else {
+                showDbEmptyToast()
             }
-            personDataAdapter.notifyDataSetChanged()
+            personDataAdapter.notifyItemRangeChanged(0, personList.size)
+        }
+
+        binding.modifySqliteDb.setOnClickListener {
+            sqLiteDBHelper.deleteAllData()
         }
 
         // Realm DB Data Handling
@@ -126,9 +116,7 @@ class DatabaseFragment : Fragment() {
                 val name = binding.nameEt.text.toString()
                 val age = binding.ageEt.text.toString()
 
-                personRealm.writeBlocking {
-                    copyToRealm(Person(name, age).toPersonObject())
-                }
+                personRealm.insertData(Person(name, age))
 
                 showPersonAddedToast()
 
@@ -141,14 +129,16 @@ class DatabaseFragment : Fragment() {
 
         binding.getRealm.setOnClickListener {
             personList.clear()
-            if (personRealm.query<PersonObject>().find().isNotEmpty()) {
-                personList.addAll(personRealm.query<PersonObject>().find().map { personObject ->
-                    personObject.toPerson()
-                })
+            if (personRealm.getData().isNotEmpty()) {
+                personList.addAll(personRealm.getData())
             } else {
                 showDbEmptyToast()
             }
-            personDataAdapter.notifyDataSetChanged()
+            personDataAdapter.notifyItemRangeChanged(0, personList.size)
+        }
+
+        binding.modifyRealmDb.setOnClickListener {
+            personRealm.deleteAllData()
         }
     }
 
@@ -164,8 +154,9 @@ class DatabaseFragment : Fragment() {
     }
 
     private fun validInput(): Boolean {
+
         return binding.nameEt.text.toString().isNotBlank() && binding.ageEt.text.toString()
-            .isNotBlank()
+            .isNotBlank() && binding.ageEt.text.toString().toInt() in 1..100
     }
 
     private fun showPersonAddedToast() {
@@ -175,7 +166,7 @@ class DatabaseFragment : Fragment() {
     }
 
     private fun showEmptyFieldToast() {
-        Toast.makeText(requireActivity(), "Fields are empty", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity(), "Invalid Input", Toast.LENGTH_SHORT).show()
     }
 
     private fun showDbEmptyToast() {
