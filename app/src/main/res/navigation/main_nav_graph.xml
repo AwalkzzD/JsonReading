@@ -18,6 +18,10 @@
             android:id="@+id/action_mainFragment_to_databaseFragment"
             app:destination="@id/databaseFragment"
             app:popUpTo="@id/mainFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_biometricFragment"
+            app:destination="@id/biometricFragment"
+            app:popUpTo="@id/mainFragment" />
     </fragment>
 
     <fragment
@@ -30,5 +34,10 @@
         android:name="com.example.jsonreading.ui.DatabaseFragment"
         android:label="fragment_database"
         tools:layout="@layout/fragment_database" />
+    <fragment
+        android:id="@+id/biometricFragment"
+        android:name="com.example.jsonreading.ui.BiometricFragment"
+        android:label="fragment_biometric"
+        tools:layout="@layout/fragment_biometric" />
 
 </navigation>

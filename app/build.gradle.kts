@@ -1,5 +1,3 @@
-import kotlin.script.experimental.jvm.util.classpathFromClass
-
 plugins {
     id("kotlin-kapt")
     id("io.realm.kotlin")
@@ -81,5 +79,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation(libs.gson)
 
+    // Kotlin Biometric Library
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
 }

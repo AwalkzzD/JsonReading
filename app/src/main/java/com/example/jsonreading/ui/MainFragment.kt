@@ -129,6 +129,11 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_mainFragment_to_databaseFragment)
         }
 
+        binding.biometricTest.setOnClickListener {
+            // redirect to Biometric Fragment to explore different biometric
+            findNavController().navigate(R.id.action_mainFragment_to_biometricFragment)
+        }
+
         // json parsing object live data observer
         jsonLiveData.observe(viewLifecycleOwner) { response ->
 

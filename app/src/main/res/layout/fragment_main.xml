@@ -30,4 +30,10 @@
         android:layout_height="wrap_content"
         android:text="Explore Databases" />
 
+    <Button
+        android:id="@+id/biometric_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Biometric" />
+
 </LinearLayout>
