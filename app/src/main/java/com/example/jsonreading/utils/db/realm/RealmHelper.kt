@@ -36,4 +36,12 @@ class RealmHelper {
             deleteAll()
         }
     }
+
+    fun updateData(person: PersonObject) {
+        personRealm.writeBlocking {
+            val personObject =
+                query<PersonObject>("name == $0", person.name).first().find()
+            personObject?.age = person.age
+        }
+    }
 }

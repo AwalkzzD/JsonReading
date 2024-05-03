@@ -111,7 +111,7 @@
         android:weightSum="3">
 
         <Button
-            android:id="@+id/modify_room_db"
+            android:id="@+id/delete_room_db"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -121,7 +121,7 @@
             android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/modify_sqlite_db"
+            android:id="@+id/delete_sqlite_db"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -131,13 +131,51 @@
             android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/modify_realm_db"
+            android:id="@+id/delete_realm_db"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:backgroundTint="@color/green"
             android:text="Delete Realm"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/modify_room_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Update Room"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/modify_sqlite_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Update SQLite"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/modify_realm_db"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Update Realm"
             android:textColor="@color/white" />
 
     </LinearLayout>

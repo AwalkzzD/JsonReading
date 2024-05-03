@@ -57,6 +57,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         this.readableDatabase.execSQL("DELETE FROM $TABLE_NAME")
     }
 
+    fun updatePerson(name: String, age: String) {
+        this.readableDatabase.execSQL("UPDATE $TABLE_NAME SET $AGE_COL = $age WHERE $NAME_COl = '$name'")
+    }
+
     companion object {
         private val DATABASE_NAME = "testsqlite"
 

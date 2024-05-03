@@ -13,6 +13,7 @@ import com.example.jsonreading.databinding.FragmentDatabaseBinding
 import com.example.jsonreading.utils.adapter.GenericDataAdapter
 import com.example.jsonreading.utils.common.toPerson
 import com.example.jsonreading.utils.common.toPersonEntity
+import com.example.jsonreading.utils.common.toPersonObject
 import com.example.jsonreading.utils.db.realm.RealmHelper
 import com.example.jsonreading.utils.db.room.PersonAppDatabase
 import com.example.jsonreading.utils.db.room.dao.PersonDao
@@ -25,8 +26,7 @@ class DatabaseFragment : Fragment() {
 
     private lateinit var sqLiteDBHelper: DBHelper
     private lateinit var personDao: PersonDao
-
-    private val personRealm: RealmHelper = RealmHelper()
+    private lateinit var personRealm: RealmHelper
 
     private var personList: MutableList<Person> = mutableListOf()
 
@@ -42,21 +42,19 @@ class DatabaseFragment : Fragment() {
 
         sqLiteDBHelper = DBHelper(requireActivity(), null)
         personDao = PersonAppDatabase.getInstance(requireActivity()).personDao()
+        personRealm = RealmHelper()
 
         initRecyclerView()
 
         // Room DB Data Handling
         binding.roomDb.setOnClickListener {
             if (validInput()) {
-                val name = binding.nameEt.text.toString()
-                val age = binding.ageEt.text.toString()
+                val name = binding.nameEt.text.toString().trim()
+                val age = binding.ageEt.text.toString().trim()
 
                 personDao.insertPerson(Person(name, age).toPersonEntity())
 
                 showPersonAddedToast()
-
-                binding.nameEt.text.clear()
-                binding.ageEt.text.clear()
             } else {
                 showEmptyFieldToast()
             }
@@ -71,25 +69,32 @@ class DatabaseFragment : Fragment() {
             } else {
                 showDbEmptyToast()
             }
-            personDataAdapter.notifyItemRangeChanged(0, personList.size)
+            personDataAdapter.notifyDataSetChanged()
+        }
+
+        binding.deleteRoomDb.setOnClickListener {
+            personDao.deleteAllData()
+            showDataDeletedToast()
         }
 
         binding.modifyRoomDb.setOnClickListener {
-            personDao.deleteAllData()
+            if (validInput()) {
+                val name = binding.nameEt.text.toString().trim()
+                val age = binding.ageEt.text.toString().trim()
+                personDao.updatePerson(Person(name, age).toPersonEntity())
+                showPersonUpdatedToast()
+            }
         }
 
         // SQLite DB Data Handling
         binding.sqliteDb.setOnClickListener {
             if (validInput()) {
-                val name = binding.nameEt.text.toString()
-                val age = binding.ageEt.text.toString()
+                val name = binding.nameEt.text.toString().trim()
+                val age = binding.ageEt.text.toString().trim()
 
                 sqLiteDBHelper.addPerson(name, age)
 
                 showPersonAddedToast()
-
-                binding.nameEt.text.clear()
-                binding.ageEt.text.clear()
             } else {
                 showEmptyFieldToast()
             }
@@ -102,26 +107,32 @@ class DatabaseFragment : Fragment() {
             } else {
                 showDbEmptyToast()
             }
-            personDataAdapter.notifyItemRangeChanged(0, personList.size)
+            personDataAdapter.notifyDataSetChanged()
+        }
+
+        binding.deleteSqliteDb.setOnClickListener {
+            sqLiteDBHelper.deleteAllData()
+            showDataDeletedToast()
         }
 
         binding.modifySqliteDb.setOnClickListener {
-            sqLiteDBHelper.deleteAllData()
+            if (validInput()) {
+                val name = binding.nameEt.text.toString().trim()
+                val age = binding.ageEt.text.toString().trim()
+                sqLiteDBHelper.updatePerson(name, age)
+                showPersonUpdatedToast()
+            }
         }
 
         // Realm DB Data Handling
         binding.realmDb.setOnClickListener {
             if (validInput()) {
-
-                val name = binding.nameEt.text.toString()
-                val age = binding.ageEt.text.toString()
+                val name = binding.nameEt.text.toString().trim()
+                val age = binding.ageEt.text.toString().trim()
 
                 personRealm.insertData(Person(name, age))
 
                 showPersonAddedToast()
-
-                binding.nameEt.text.clear()
-                binding.ageEt.text.clear()
             } else {
                 showEmptyFieldToast()
             }
@@ -134,11 +145,22 @@ class DatabaseFragment : Fragment() {
             } else {
                 showDbEmptyToast()
             }
-            personDataAdapter.notifyItemRangeChanged(0, personList.size)
+            personDataAdapter.notifyDataSetChanged()
+        }
+
+        binding.deleteRealmDb.setOnClickListener {
+            personRealm.deleteAllData()
+            showDataDeletedToast()
         }
 
         binding.modifyRealmDb.setOnClickListener {
-            personRealm.deleteAllData()
+            if (validInput()) {
+                val name = binding.nameEt.text.toString().trim()
+                val age = binding.ageEt.text.toString().trim()
+
+                personRealm.updateData(Person(name, age).toPersonObject())
+                showPersonUpdatedToast()
+            }
         }
     }
 
@@ -154,15 +176,30 @@ class DatabaseFragment : Fragment() {
     }
 
     private fun validInput(): Boolean {
-
         return binding.nameEt.text.toString().isNotBlank() && binding.ageEt.text.toString()
             .isNotBlank() && binding.ageEt.text.toString().toInt() in 1..100
     }
 
     private fun showPersonAddedToast() {
         Toast.makeText(
-            requireActivity(), "Person Added to SQLite Database", Toast.LENGTH_SHORT
+            requireActivity(), "Person Added to DB", Toast.LENGTH_SHORT
         ).show()
+        binding.nameEt.text.clear()
+        binding.ageEt.text.clear()
+    }
+
+    private fun showDataDeletedToast() {
+        Toast.makeText(
+            requireActivity(), "Data Deleted from DB", Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun showPersonUpdatedToast() {
+        Toast.makeText(
+            requireActivity(), "Person Updated", Toast.LENGTH_SHORT
+        ).show()
+        binding.nameEt.text.clear()
+        binding.ageEt.text.clear()
     }
 
     private fun showEmptyFieldToast() {
